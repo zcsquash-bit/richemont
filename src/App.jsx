@@ -889,14 +889,24 @@ const DashboardScreen = ({ persona }) => {
 export default function App() {
   const [screen, setScreen] = useState("login"); // login | personalisation | dashboard
   const [persona, setPersona] = useState(null);
+  const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    const handleResize = () => setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const navigate = (next, p = null) => {
     if (p) setPersona(p);
     setScreen(next);
   };
 
-  const PHONE_W = 375;
-  const PHONE_H = 720;
+  // Reserve space for header label (~60px) + back button (~50px) + padding (~48px)
+  const reservedY = 158;
+  const PHONE_H = Math.min(720, dimensions.height - reservedY);
+  // Phone aspect ratio is 375:720; derive width from height
+  const PHONE_W = Math.min(375, Math.round(PHONE_H * (375 / 720)));
 
   return (
     <div style={{
