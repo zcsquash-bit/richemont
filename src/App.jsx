@@ -340,34 +340,35 @@ const PersonalisationScreen = ({ personaKey, onConfirm }) => {
   return (
     <div style={{ minHeight: "100%", background: T.cream, display: "flex", flexDirection: "column" }}>
       {/* Header */}
-      <div style={{ background: T.navy, padding: "20px 24px 28px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
-          <span style={{ color: "#4CAF50", fontSize: 14 }}>✓</span>
-          <span style={{ color: T.gold, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            SSO Sync Successful
-          </span>
+      <div style={{ background: T.navy, padding: "10px 16px 12px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 2 }}>
+              <span style={{ color: "#4CAF50", fontSize: 11 }}>✓</span>
+              <span style={{ color: T.gold, fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase" }}>SSO Sync Successful</span>
+            </div>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 15,
+              fontWeight: 700,
+              color: T.white,
+              margin: 0,
+            }}>Welcome back, {p.name.split(" ")[0]}</h2>
+          </div>
+          <div style={{ width: 30, height: 30, borderRadius: "50%", background: p.accent, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: T.navy, flexShrink: 0 }}>
+            {p.avatar}
+          </div>
         </div>
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 22,
-          fontWeight: 700,
-          color: T.white,
-          margin: 0,
-          lineHeight: 1.3,
-        }}>Welcome back,<br />{p.name.split(" ")[0]}</h2>
-        <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 12, margin: "8px 0 0", lineHeight: 1.5 }}>
-          Review your profile and confirm your learning focus to generate your path.
-        </p>
       </div>
 
-      <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+      <div style={{ flex: 1, padding: "12px 16px", overflowY: "auto" }}>
         
         {/* Read-Only SSO Data Card */}
         <div style={{
           background: T.white,
           borderRadius: 8,
-          padding: "16px",
-          marginBottom: 24,
+          padding: "12px",
+          marginBottom: 14,
           boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
           border: `1px solid ${T.border}`
         }}>
@@ -398,7 +399,7 @@ const PersonalisationScreen = ({ personaKey, onConfirm }) => {
         </div>
 
         {/* Editable: Expertise Level */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 14 }}>
           <h3 style={{ fontSize: 13, fontWeight: 700, color: T.navy, marginBottom: 10 }}>Expertise Level</h3>
           <div style={{ display: "flex", background: T.white, borderRadius: 6, border: `1px solid ${T.border}`, overflow: "hidden" }}>
             {["Beginner", "Intermediate", "Advanced"].map(lvl => (
@@ -418,7 +419,7 @@ const PersonalisationScreen = ({ personaKey, onConfirm }) => {
         </div>
 
         {/* Editable: Target Skill Focus */}
-        <div style={{ marginBottom: 12 }}>
+        <div style={{ marginBottom: 8 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
             <h3 style={{ fontSize: 13, fontWeight: 700, color: T.navy, margin: 0 }}>Target Skill Focus</h3>
             <span style={{ fontSize: 10, color: T.textLight }}>Select up to 4</span>
@@ -493,38 +494,45 @@ const DashboardScreen = ({ persona }) => {
       {/* Top nav */}
       <div style={{
         background: T.navy,
-        padding: "16px 20px 20px",
+        padding: "10px 16px",
         position: "relative",
       }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-          <span style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 10,
-            letterSpacing: "0.3em",
-            color: T.gold,
-            textTransform: "uppercase",
-          }}>RICHEMONT</span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <span style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 9,
+              letterSpacing: "0.25em",
+              color: T.gold,
+              textTransform: "uppercase",
+              display: "block",
+              marginBottom: 1,
+            }}>RICHEMONT</span>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: 14,
+              fontWeight: 700,
+              color: T.white,
+              margin: 0,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}>{p.greeting}</h2>
+          </div>
           <div style={{
-            width: 34,
-            height: 34,
+            width: 30,
+            height: 30,
             borderRadius: "50%",
             background: p.accent,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: 800,
             color: T.navy,
+            flexShrink: 0,
           }}>{p.avatar}</div>
         </div>
-        <h2 style={{
-          fontFamily: "'Playfair Display', serif",
-          fontSize: 18,
-          fontWeight: 700,
-          color: T.white,
-          margin: "0 0 4px",
-        }}>{p.greeting}</h2>
-        <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 11, margin: 0, lineHeight: 1.5 }}>{p.tagline}</p>
       </div>
 
       {/* Scrollable content */}
@@ -535,9 +543,9 @@ const DashboardScreen = ({ persona }) => {
             {/* Stats strip */}
             <div style={{
               background: T.white,
-              margin: "16px 16px 0",
+              margin: "10px 12px 0",
               borderRadius: 10,
-              padding: "14px 18px",
+              padding: "10px 14px",
               display: "flex",
               alignItems: "center",
               gap: 0,
@@ -568,11 +576,11 @@ const DashboardScreen = ({ persona }) => {
             </div>
 
             {/* Manager Pick */}
-            <div style={{ padding: "16px 16px 0" }}>
+            <div style={{ padding: "10px 12px 0" }}>
               <div style={{
                 background: T.navy,
                 borderRadius: 10,
-                padding: "14px 16px",
+                padding: "10px 14px",
                 position: "relative",
                 overflow: "hidden",
               }}>
@@ -599,7 +607,7 @@ const DashboardScreen = ({ persona }) => {
             </div>
 
             {/* Recommended for you */}
-            <div style={{ padding: "20px 16px 0" }}>
+            <div style={{ padding: "10px 12px 0" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <h3 style={{ fontSize: 13, fontWeight: 700, color: T.navy, margin: 0, letterSpacing: "0.01em" }}>
                   Recommended for you
