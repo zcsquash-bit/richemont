@@ -468,7 +468,7 @@ const PersonalisationScreen = ({ personaKey, onConfirm }) => {
             fontFamily: "Inter, sans-serif",
             boxShadow: "0 4px 14px rgba(201,169,110,0.4)",
           }}>
-          Generate Recommendations →
+          Generate Content →
         </button>
       </div>
     </div>
