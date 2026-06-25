@@ -301,7 +301,7 @@ const LoginScreen = ({ onNext }) => (
       </button>
 
       <p style={{ color: T.textLight, fontSize: 11, textAlign: "center", margin: 0, opacity: 0.6 }}>
-        Powered by your corporate identity provider
+        Casper Lai | Digital Project Manager Interview
       </p>
     </div>
 
