@@ -234,12 +234,9 @@ const LoginScreen = ({ onNext }) => (
     position: "relative",
     overflow: "hidden",
   }}>
-    {/* Gold accent top bar */}
     <div style={{ height: 3, background: `linear-gradient(90deg, ${T.gold}, transparent)` }} />
 
-    {/* Hero area */}
     <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "48px 28px 24px" }}>
-      {/* Richemont wordmark */}
       <div style={{ marginBottom: 8 }}>
         <span style={{
           fontFamily: "'Playfair Display', serif",
@@ -254,7 +251,6 @@ const LoginScreen = ({ onNext }) => (
         <div style={{ height: 1, background: T.gold, width: 60, margin: "0 auto", opacity: 0.5 }} />
       </div>
 
-      {/* Big title */}
       <div style={{ marginTop: 32, marginBottom: 12, textAlign: "center" }}>
         <h1 style={{
           fontFamily: "'Playfair Display', serif",
@@ -267,7 +263,6 @@ const LoginScreen = ({ onNext }) => (
         }}>Learning<br />Platform</h1>
       </div>
 
-      {/* Subtitle */}
       <p style={{
         color: T.goldLight,
         fontSize: 13,
@@ -280,7 +275,6 @@ const LoginScreen = ({ onNext }) => (
         Personalised learning, curated for your role and Maison.
       </p>
 
-      {/* SSO Button */}
       <button onClick={onNext} style={{
         width: "100%",
         maxWidth: 280,
@@ -311,7 +305,6 @@ const LoginScreen = ({ onNext }) => (
       </p>
     </div>
 
-    {/* Bottom brand strip */}
     <div style={{ textAlign: "center", padding: "0 28px" }}>
       <div style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, paddingTop: 20 }}>
         <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.15em", margin: 0, textTransform: "uppercase" }}>
@@ -322,24 +315,38 @@ const LoginScreen = ({ onNext }) => (
   </div>
 );
 
-// ─── Screen 2: Persona / Role Selection ──────────────────────────
-const OnboardingScreen = ({ onSelect }) => {
-  const [selected, setSelected] = useState(null);
+// ─── Screen 2: Personalisation (Replaces Onboarding) ─────────────
+const PersonalisationScreen = ({ personaKey, onConfirm }) => {
+  const p = PERSONAS[personaKey];
+  
+  // Local state to simulate user tweaking their settings
+  const [level, setLevel] = useState(p.level);
+  const [activeSkills, setActiveSkills] = useState(p.skills);
 
-  const personas = [
-    { key: "chloe", label: "Client Advisor", sub: "Boutique frontline — clienteling & brand stories", icon: "👤", color: T.rose },
-    { key: "elena", label: "Boutique Manager", sub: "Team coaching & store operations", icon: "🏪", color: T.sage },
-    { key: "marcus", label: "Corporate / Regional", sub: "Analytics, strategy & cross-market roles", icon: "📊", color: T.peach },
+  const ALL_SKILLS = [
+    "Clienteling", "Brand Storytelling", "Watchmaking", 
+    "High Jewellery", "Leadership", "Operations", 
+    "Data Analytics", "Omnichannel"
   ];
+
+  const toggleSkill = (skill) => {
+    if (activeSkills.includes(skill)) {
+      setActiveSkills(activeSkills.filter(s => s !== skill));
+    } else {
+      if (activeSkills.length < 4) setActiveSkills([...activeSkills, skill]);
+    }
+  };
 
   return (
     <div style={{ minHeight: "100%", background: T.cream, display: "flex", flexDirection: "column" }}>
       {/* Header */}
       <div style={{ background: T.navy, padding: "20px 24px 28px" }}>
-        <div style={{ height: 1, background: T.gold, width: 32, marginBottom: 12, opacity: 0.7 }} />
-        <p style={{ color: T.gold, fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", margin: "0 0 6px", opacity: 0.85 }}>
-          Welcome
-        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
+          <span style={{ color: "#4CAF50", fontSize: 14 }}>✓</span>
+          <span style={{ color: T.gold, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+            SSO Sync Successful
+          </span>
+        </div>
         <h2 style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: 22,
@@ -347,82 +354,121 @@ const OnboardingScreen = ({ onSelect }) => {
           color: T.white,
           margin: 0,
           lineHeight: 1.3,
-        }}>What best describes<br />your role?</h2>
+        }}>Welcome back,<br />{p.name.split(" ")[0]}</h2>
         <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 12, margin: "8px 0 0", lineHeight: 1.5 }}>
-          We'll personalise your learning path based on your selection.
+          Review your profile and confirm your learning focus to generate your path.
         </p>
       </div>
 
-      {/* Role cards */}
-      <div style={{ flex: 1, padding: "24px 20px" }}>
-        {personas.map(p => (
-          <button key={p.key} onClick={() => setSelected(p.key)} style={{
-            width: "100%",
-            background: selected === p.key ? T.white : T.white,
-            border: selected === p.key ? `2px solid ${T.navy}` : `2px solid ${T.border}`,
-            borderRadius: 8,
-            padding: "16px 18px",
-            marginBottom: 12,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            gap: 14,
-            textAlign: "left",
-            transition: "all 0.2s",
-            boxShadow: selected === p.key ? "0 4px 16px rgba(27,42,74,0.12)" : "0 1px 3px rgba(0,0,0,0.05)",
-          }}>
-            <div style={{
-              width: 44,
-              height: 44,
-              borderRadius: "50%",
-              background: p.color,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 20,
-              flexShrink: 0,
-            }}>{p.icon}</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: T.navy, marginBottom: 2 }}>{p.label}</div>
-              <div style={{ fontSize: 11, color: T.textMid, lineHeight: 1.4 }}>{p.sub}</div>
+      <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+        
+        {/* Read-Only SSO Data Card */}
+        <div style={{
+          background: T.white,
+          borderRadius: 8,
+          padding: "16px",
+          marginBottom: 24,
+          boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+          border: `1px solid ${T.border}`
+        }}>
+          <div style={{ fontSize: 10, color: T.textLight, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 12, display: "flex", justifyContent: "space-between" }}>
+            <span>Corporate Profile</span>
+            <span>🔒 Locked</span>
+          </div>
+          
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: p.accent, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: T.navy }}>
+              {p.avatar}
             </div>
-            <div style={{
-              width: 18,
-              height: 18,
-              borderRadius: "50%",
-              border: selected === p.key ? `5px solid ${T.navy}` : `2px solid ${T.border}`,
-              flexShrink: 0,
-              transition: "all 0.2s",
-            }} />
-          </button>
-        ))}
+            <div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: T.navy }}>{p.name}</div>
+              <div style={{ fontSize: 12, color: T.textMid }}>{p.role}</div>
+            </div>
+          </div>
+          <div style={{ background: T.cream, padding: "8px 12px", borderRadius: 4, display: "flex", gap: 16 }}>
+            <div>
+              <div style={{ fontSize: 9, color: T.textLight, textTransform: "uppercase" }}>Maison</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: T.navy }}>{p.maison}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 9, color: T.textLight, textTransform: "uppercase" }}>Experience</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: T.navy }}>{p.experience}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Editable: Expertise Level */}
+        <div style={{ marginBottom: 24 }}>
+          <h3 style={{ fontSize: 13, fontWeight: 700, color: T.navy, marginBottom: 10 }}>Expertise Level</h3>
+          <div style={{ display: "flex", background: T.white, borderRadius: 6, border: `1px solid ${T.border}`, overflow: "hidden" }}>
+            {["Beginner", "Intermediate", "Advanced"].map(lvl => (
+              <button key={lvl} onClick={() => setLevel(lvl)} style={{
+                flex: 1,
+                padding: "10px 0",
+                background: level === lvl ? T.navy : "transparent",
+                color: level === lvl ? T.white : T.textMid,
+                border: "none",
+                fontSize: 11,
+                fontWeight: level === lvl ? 700 : 500,
+                cursor: "pointer",
+                transition: "all 0.2s"
+              }}>{lvl}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Editable: Target Skill Focus */}
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+            <h3 style={{ fontSize: 13, fontWeight: 700, color: T.navy, margin: 0 }}>Target Skill Focus</h3>
+            <span style={{ fontSize: 10, color: T.textLight }}>Select up to 4</span>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {ALL_SKILLS.map(skill => {
+              const isActive = activeSkills.includes(skill);
+              return (
+                <button key={skill} onClick={() => toggleSkill(skill)} style={{
+                  padding: "8px 12px",
+                  borderRadius: 20,
+                  border: isActive ? `1px solid ${T.navy}` : `1px solid ${T.border}`,
+                  background: isActive ? T.navyLight : T.white,
+                  color: isActive ? T.white : T.textMid,
+                  fontSize: 11,
+                  fontWeight: isActive ? 600 : 400,
+                  cursor: "pointer",
+                  transition: "all 0.2s"
+                }}>
+                  {isActive ? "✓ " : "+ "}{skill}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
 
-      {/* CTA */}
-      <div style={{ padding: "0 20px 32px" }}>
+      {/* CTA Footer */}
+      <div style={{ padding: "16px 20px 32px", background: T.cream, borderTop: `1px solid ${T.border}` }}>
         <button
-          onClick={() => selected && onSelect(selected)}
-          disabled={!selected}
+          onClick={onConfirm}
           style={{
             width: "100%",
             padding: "15px",
-            background: selected ? T.navy : T.border,
-            color: selected ? T.gold : T.textLight,
+            background: T.gold,
+            color: T.navy,
             border: "none",
             borderRadius: 4,
             fontSize: 13,
             fontWeight: 700,
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            cursor: selected ? "pointer" : "default",
+            cursor: "pointer",
             transition: "all 0.2s",
             fontFamily: "Inter, sans-serif",
+            boxShadow: "0 4px 14px rgba(201,169,110,0.4)",
           }}>
-          Continue →
+          Generate Recommendations →
         </button>
-        <p style={{ color: T.textLight, fontSize: 10, textAlign: "center", marginTop: 10, letterSpacing: "0.05em" }}>
-          You can adjust this anytime in your profile
-        </p>
       </div>
     </div>
   );
@@ -841,12 +887,10 @@ const DashboardScreen = ({ persona }) => {
 
 // ─── Root App ────────────────────────────────────────────────────
 export default function App() {
-  const [screen, setScreen] = useState("login"); // login | onboarding | dashboard
+  const [screen, setScreen] = useState("login"); // login | personalisation | dashboard
   const [persona, setPersona] = useState(null);
-  const [prevScreen, setPrevScreen] = useState(null);
 
   const navigate = (next, p = null) => {
-    setPrevScreen(screen);
     if (p) setPersona(p);
     setScreen(next);
   };
@@ -870,7 +914,8 @@ export default function App() {
         <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 4 }}>
           Richemont Learning Platform — Interactive Prototype
         </div>
-        {persona && screen === "dashboard" && (
+        {/* Prototype Persona Switcher (Only show after login) */}
+        {persona && (screen === "dashboard" || screen === "personalisation") && (
           <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
             {["chloe", "elena", "marcus"].map(k => (
               <button key={k} onClick={() => setPersona(k)} style={{
@@ -907,7 +952,7 @@ export default function App() {
       }}>
         {/* Status bar */}
         <div style={{
-          background: screen === "login" || screen === "dashboard" ? T.navy : T.navy,
+          background: T.navy,
           padding: "10px 24px 6px",
           display: "flex",
           justifyContent: "space-between",
@@ -924,15 +969,22 @@ export default function App() {
 
         {/* Screen content */}
         <div style={{ flex: 1, overflow: "hidden", position: "relative", display: "flex", flexDirection: "column" }}>
-          {screen === "login" && <LoginScreen onNext={() => navigate("onboarding")} />}
-          {screen === "onboarding" && <OnboardingScreen onSelect={(p) => navigate("dashboard", p)} />}
+          {screen === "login" && <LoginScreen onNext={() => navigate("personalisation", "chloe")} />}
+          
+          {screen === "personalisation" && persona && (
+            <PersonalisationScreen 
+              personaKey={persona} 
+              onConfirm={() => navigate("dashboard")} 
+            />
+          )}
+
           {screen === "dashboard" && persona && <DashboardScreen persona={persona} />}
         </div>
       </div>
 
-      {/* Back nav */}
+      {/* Back nav for the prototype */}
       {screen !== "login" && (
-        <button onClick={() => setScreen(screen === "dashboard" ? "onboarding" : "login")} style={{
+        <button onClick={() => setScreen(screen === "dashboard" ? "personalisation" : "login")} style={{
           marginTop: 16,
           background: "none",
           border: "1px solid rgba(255,255,255,0.15)",
