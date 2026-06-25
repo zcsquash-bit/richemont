@@ -247,7 +247,7 @@ const LoginScreen = ({ onNext }) => (
           display: "block",
           textAlign: "center",
           marginBottom: 2,
-        }}>RICHEMONT</span>
+        }}>CASPER</span>
         <div style={{ height: 1, background: T.gold, width: 60, margin: "0 auto", opacity: 0.5 }} />
       </div>
 
